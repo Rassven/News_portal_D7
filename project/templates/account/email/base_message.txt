@@ -1,0 +1,14 @@
+{% load i18n %}
+{% autoescape off %}
+    {% blocktrans with site_name=current_site.name %}
+    Привет от (base_message.txt)... {{ site_name }}!
+    {% endblocktrans %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+    Пасибо за использование (base_message.txt) {{ site_name }}!
+    {{ site_domain }}
+    {% endblocktrans %}
+{% endautoescape %}

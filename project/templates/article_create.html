@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h1>Создание статьи</h1>
+<hr>
+
+<form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Save">
+</form>
+<hr>
+<a href='/portal/allarticles'>К списку статей</a>
+{% endblock content %}

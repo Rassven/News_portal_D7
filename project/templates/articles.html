@@ -1,0 +1,102 @@
+{% extends 'flatpages/default.html' %}
+{% block title %}Список публикаций{% endblock title %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block content %}
+User id = {{ user.id }} (
+{% if user.id == 1 %}
+Administrator
+{% else %}
+{{user}}
+{% endif %}
+)
+<br>
+<h6>
+    <b>Вам доступно: читать
+        {% if perms.simpleapp.add_article %}
+        , создавать
+        {% endif %}
+        {% if perms.simpleapp.edit_article %}
+        , редактировать
+        {% endif %}
+        {% if perms.simpleapp.delete_article %}
+        , удалять
+        {% endif %}
+публикации
+</b>
+    </h6>
+<h2>Все публикации
+<!-- <h4><i>{% if articles|length > 1%}
+    (всего {{ articles.count }} )
+    {% else %}
+    (одна)
+    {% endif %}</i></h4> -->
+</h2>
+
+
+<h5>
+    {% if perms.simpleapp.add_article %}
+    <a href="articles/create/">Создать статью</a>
+    <a href="news/create/">Создать новость</a>
+    {% endif %}
+</h5>
+
+<hr>
+<h3> {{ empty|default_if_none:"Переменная empty пока пуста." }} </h3>
+
+{% if articles %}
+<table>
+    <tr>
+        <td><b>Индекс</b></td>
+        <td><b>Название</b></td>
+        <td><b>Категория</b></td>
+        <td><b>Рейтинг</b></td>
+        <td><b>Текст</b></td>
+        <td><b>Время создания</b></td>
+        <td><b>Действия</b></td>
+    </tr>
+    {% for article in articles %}
+    <tr>
+        <td>{{ article.id }}</td>
+        <td>{{ article.name }}</td>
+        <td>{{ article.category.name }}</td>
+        <td>{{ article.rating }}</td>
+        <td>{{ article.text|truncatechars:5|truncatewords:1 }}</td>
+        <td>{{ article.pub_time|date:'Y M d H m s' }}</td>
+        <td><a href="{{article.id}}">читать</a></td>
+        <!-- <td>{{ time_now|date:'Y M d l' }}</td> -->
+    </tr>
+    {% endfor %}
+</table>
+<hr>
+
+<h2>
+    {# Информация о предыдущих страницах #}
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+        ...
+        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+    {# Информация о текущей странице #}
+    {{ page_obj.number }}
+
+    {# Информация о следующих страницах #}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+        ...
+        <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+</h2>
+
+<hr>
+<!-- <i><h6>{{ articles }}</h6></i> -->
+{% else %}
+<h2>Ничего нет.</h2>
+{% endif %}
+
+{% endblock content %}

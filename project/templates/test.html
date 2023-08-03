@@ -1,0 +1,80 @@
+{% extends 'flatpages/default.html' %}
+<!-- {% load custom_tags %}  -->
+
+
+{% block title %}
+Лучшая статья
+{% endblock title %}
+
+{% block content %}
+
+<!-- <label for="party">Enter a date and time:</label>
+<input
+        id="party"
+        type="datetime-local"
+        name="partydate"
+        value="2023-07-15T18:30"
+        min="2023-07-01T08:30"
+        max="2023-07-30T08:30"/> -->
+
+<form>
+  <label for="party">Enter a date and time for your party booking:</label>
+  <input id="party" type="datetime-local" name="partydate" />
+</form>
+
+
+{{party}}
+{{partydate}}
+<h2>
+    <h5 style="color:f000ff">Test style (color)</h5>
+    Test content
+    <br>
+    <textarea name="description" cols="80" rows="5" required id="id_description">any text</textarea>
+
+
+    <form action="" method="get" >
+        {{ filterset.form.non_field_errors }}
+        {{ filterset.form.name__icontains.errors }}
+        <label for="{{ filterset.form.name__icontains.id_for_label }}">Search</label>
+        <input
+                id="{{ filterset.form.name__icontains.id }}"
+                name="{{ filterset.form.name__icontains.name }}"
+                value="{{ filterset.form.name__icontains.value }}"
+                class="form-control"
+        >
+        <input type="submit" class="mt-3 btn-primary" value="Найти" />
+    </form>
+
+
+<!-- <br> - Перевод строки-->
+<hr>
+
+    <tr>
+        <th><label for="id_category">Category:</label></th>
+        <td>
+            <select name="category" required id="id_category">
+                <option value="">..пусто..</option>
+                <option value="1" selected>Хозтовары</option>
+                <option value="2">Подушки</option>
+            </select>
+        </td>
+    </tr>
+
+
+    <hr>
+
+    <tr>
+    <th><label for="id_name">Name:</label></th>
+    <td>
+      <input type="text" name="name" value="test" maxlength="50" required id="id_name">
+
+    </td>
+  </tr>
+
+
+
+
+
+</h2>
+<h5><a href='/portal'>К списку статей</a></h5>
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends 'flatpages/default.html' %}
+
+<!-- {% load custom_tags %}
+{% load custom_filters %}  -->
+
+
+{% block title %}
+Article
+{% endblock title %}
+
+{% block content %}
+<h3>Описание лучшей публикации</h3>
+<hr>
+<br>
+<h5>
+    <table valign="down">
+        <tr>
+            <td>Название (цензурировано):</td>
+            <td>{{ article.name|censor }}</td>
+        </tr>
+        <tr>
+            <td>Индекс в базе:</td>
+            <td><i>{{ article.id }}</i></td>
+        </tr>
+        <tr>
+            <td>Категория:</td>
+            <td>{{ article.category }}</td>
+        </tr>
+                <tr>
+            <td>Рейтинг:</td>
+            <td>{{ article.rating }}</td>
+        </tr>
+        <tr>
+            <td>Время публикации:</td>
+            <td>{{ article.pub_time }}</td>
+        </tr>
+        <tr>
+            <td valign="top">Содержание (полное):</td>
+            <!-- <td>{{ article.text|truncatewords:5 }} -->
+            <td><h6>{{ article.text }}
+                <!-- {% if user.is.authenticated %}
+                {{ article.description }}
+                {% else %}
+                Только для авторизованных пользователей
+                {% endif %} -->
+                </h6>
+            </td>
+        </tr>
+        <!--  <tr><td>Ограничения публикации</td></tr>  -->
+        </tr>
+        <tr>
+            <td valign="top">Содержание (цензурировано):</td>
+            <td><h6>{{ article.text|censor }}</h6></td>
+        </tr>
+    </table>
+    <hr>
+</h5>
+<a href='/portal'>К списку публикаций</a>
+{% endblock content %}

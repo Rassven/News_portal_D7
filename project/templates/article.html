@@ -1,0 +1,36 @@
+{% extends 'flatpages/default.html' %}
+<!-- {% load custom_tags %}  -->
+
+
+{% block title %}
+Лучшая статья
+{% endblock title %}
+
+{% block content %}
+
+<h2>
+    <b>Название статьи: </b><i>{{ article.name }}</i>
+    <br>
+    <b>Индекс в базе: </b><i>{{ article.id }}</i>
+    <br>
+    <b>Категория: </b><i>{{ article.category }}</i>
+    <br>
+    <b>Содержание: </b><h5><i>{{ article.text }}</i></h5>
+    <br>
+    <b>Рейтинг: </b><i>{{ article.rating }}</i>
+    <br>
+    <b>Время: </b><i>{{ article.pub_time }}</i>
+    <br>
+    <hr>
+</h2>
+<h5>
+    <a href='/portal'>К списку статей</a>
+    {% if perms.simpleapp.edit_article %}
+        <a href="{{ article.id }}/update">Редактировать</a>
+    {% endif %}
+    {% if perms.simpleapp.delete_article %}
+        <a href="{{ article.id }}/delete">Удалить</a>
+    {% endif %}
+
+</h5>
+{% endblock content %}

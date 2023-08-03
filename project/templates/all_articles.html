@@ -1,0 +1,80 @@
+{% extends 'flatpages/default.html' %}
+{% block title %}Список статей{% endblock title %}
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block content %}
+<h2>Статьи</h2>
+{% if perms.simpleapp.add_article %}
+<h5><a href="/portal/articles/create/">Создать статью</a></h5>
+{% endif %}
+<hr>
+
+{% if articles %}
+
+<table>
+    <tr>
+        <td><b>Индекс</b></td>
+        <td><b>Название</b></td>
+        <td><b>Категория</b></td>
+        <td><b>Рейтинг</b></td>
+        <td><b>Текст</b></td>
+        <td><b>Дата создания</b></td>
+        <td><b>Время создания</b></td>
+        <td></td>
+        <td><b>Действия</b></td>
+    </tr>
+
+    {% for article in articles %}
+    <tr>
+        <td>{{ article.id }}</td>
+        <td>{{ article.name }}</td>
+        <td>{{ article.category.name }}</td>
+        <td>{{ article.rating }}</td>
+        <td>{{ article.text|truncatechars:5|truncatewords:1 }}</td>
+        <td>{{ article.pub_time|date:'Y M d' }}</td>
+        <td>{{ article.pub_time|date:'H m s' }}</td>
+        <td><a href="/portal/{{article.id}}">Читать</a></td>
+        <td>
+            {% if perms.simpleapp.edit_article %}
+            <a href="/portal/{{article.id}}/update"> / Редактировать</a>
+            {% endif %}
+        </td>
+        <td>
+            {% if perms.simpleapp.edit_article %}
+            <a href="/portal/{{article.id}}/delete"> / Удалить</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+{# Страничительство #}
+<h2>
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+        ...
+        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+    {{ page_obj.number }}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+        ...
+        <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+</h2>
+<!--<a href='/portal'>К списку публикаций</a>-->
+<hr>
+
+
+{% else %}
+<h2>Статей нет.</h2>
+{% endif %}
+
+{% endblock content %}

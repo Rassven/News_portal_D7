@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>
+        {% block title %}
+        {{flatpage.title}}
+        {% endblock title %}
+    </title>
+
+    {% load static %}
+    {% load custom_tags %}
+    {% load custom_filters %}
+
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+<!-- Responsive navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success static-top">
+    <div class="container">
+        {% if user.id == None %}
+                <a class="navbar-brand" href="/accounts/signup/">Зарегистрироваться/Войти</a>
+                {% else %}
+                <a class="navbar-brand" href="/accounts/logout/">Выйти из "{{user}}"</a>
+                {% endif %}
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/admin/">Admin</a></li>
+                <!-- <li class="nav-item"><a class="nav-link" href="/main/">Main</a></li> -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/portal">Публикации</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/portal/allnews">Новости</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/portal/allarticles">Статьи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/portal/search">Поиск</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/portal/subscriptions">Подписки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/portal/best">Топ 1о</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="">Время: {{datetime}}</a>
+                        </li> -->
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="/portal/test">Тестовая</a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+       </nav>
+       <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h3>
+                    {% block content %}
+                    {{ flatpage.content }}
+                    {% endblock content %}
+                    </h3>
+                </div>
+           </div>
+       </div>
+
+    </body>
+</html>
