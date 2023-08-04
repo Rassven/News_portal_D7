@@ -16,7 +16,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Exists, OuterRef
 from django.views.decorators.csrf import csrf_protect
 from .models import Subscription, Category
-
 # D7.4
 from django.http import HttpResponse
 from django.views import View
@@ -48,12 +47,6 @@ class ArticleList(ListView):
         # Добавляем в контекст объект фильтрации.
         context['filterset'] = self.filterset
         return context
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['time_now'] = datetime.utcnow()
-    #     context['empty'] = None  # ='Not null'
-    #     return context
 
 
 class AboutArticle(DetailView):
@@ -185,7 +178,7 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         article = form.save(commit=False)
         article.category_id = 1
-        notify(artid=article.id)
+        notify(artid=article.id, view_name='News_create')
         return super().form_valid(form)
 
 
@@ -200,7 +193,7 @@ class ArticlesCreate(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         article = form.save(commit=False)
         article.category_id = 3
-        notify(artid=article.id)
+        notify(artid=article.id, view_name='Articles_create')
         return super().form_valid(form)
 
 
