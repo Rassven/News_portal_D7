@@ -1,0 +1,37 @@
+(>>> python manage.py check --deploy)
+WARNINGS:
+?: (security.W004) You have not set a value for the SECURE_HSTS_SECONDS setting. If your entire site is served only over
+                   SSL, you may want to consider setting a value and enabling HTTP Strict Transport Security. Be sure to
+                   read the documentation first; enabling HSTS carelessly can cause serious, irreversible problems.
+                   (Вы не установили значение для параметра SECURE_HSTS_SECONDS. Если весь ваш сайт обслуживается только
+                   через SSL, возможно, вам стоит рассмотреть возможность установки значения и включения строгой
+                   транспортной безопасности HTTP. Обязательно сначала прочтите документацию; Небрежное включение HSTS
+                   может вызвать серьезные, необратимые проблемы).
+?: (security.W008) Your SECURE_SSL_REDIRECT setting is not set to True. Unless your site should be available over both
+                   SSL and non-SSL connections, you may want to either set this setting True or configure a load
+                   balancer or reverse-proxy server to redirect all connections to HTTPS.
+                   (Для вашего параметра SECURE_SSL_REDIRECT не установлено значение True. Если ваш сайт не должен быть
+                   доступен как через SSL, так и без SSL-соединений, вы можете либо установить этот параметр в значение
+                   True, либо настроить балансировщик нагрузки или обратный прокси-сервер для перенаправления всех
+                   подключений на HTTPS.)
+?: (security.W009) Your SECRET_KEY has less than 50 characters, less than 5 unique characters, or it's prefixed with
+                   'django-insecure-' indicating that it was generated automatically by Django. Please generate a long
+                   and random value, otherwise many of Django's security-critical features will be vulnerable to attack.
+                   (Ваш SECRET_KEY имеет менее 50 символов, менее 5 уникальных символов или имеет префикс
+                   «django-insecure-», указывающий, что он был сгенерирован Django автоматически. Пожалуйста,
+                   сгенерируйте длинное и случайное значение, иначе многие важные для безопасности функции Django будут
+                   уязвимы для атак.)
+?: (security.W012) SESSION_COOKIE_SECURE is not set to True. Using a secure-only session cookie makes it more difficult
+                   for network traffic sniffers to hijack user sessions.
+                   (Для SESSION_COOKIE_SECURE не установлено значение True. Использование файлов cookie, предназначенных
+                   только для безопасного сеанса, затрудняет перехват пользовательских сеансов анализаторами
+                   сетевого трафика.)
+?: (security.W016) You have 'django.middleware.csrf.CsrfViewMiddleware' in your MIDDLEWARE, but you have not set
+                   CSRF_COOKIE_SECURE to True. Using a secure-only CSRF cookie makes it more difficult for network
+                   traffic sniffers to steal the CSRF token.
+                   (CSRF_COOKIE_SECURE в True. Использование файла cookie CSRF, предназначенного только для защиты,
+                   затрудняет кражу токена CSRF для анализаторов сетевого трафика.)
+?: (security.W018) You should not have DEBUG set to True in deployment.
+                   (При развертывании параметр DEBUG не должен иметь значение True.)
+?: (security.W020) ALLOWED_HOSTS (РАЗРЕШЕННЫЕ ХОСТЫ) must not be empty in deployment.
+                   (ALLOWED_HOSTS (РАЗРЕШЕННЫЕ ХОСТЫ) не должны быть пустыми при развертывании.)

@@ -3,6 +3,11 @@
 {% load custom_filters %}
 {% load custom_tags %}
 
+    <!-- D8.3 кэширование
+    {% load cache %}
+    {% cache 300 header %} -->
+
+
 {% block content %}
 <h2>Статьи</h2>
 {% if perms.simpleapp.add_article %}
@@ -78,3 +83,6 @@
 {% endif %}
 
 {% endblock content %}
+
+    <!-- D8.3 кэширование
+    {% endcache %} -->

@@ -19,11 +19,18 @@ from .models import Subscription, Category
 # D7.4
 from django.http import HttpResponse
 from django.views import View
-from .tasks import hello, complete_order
 from datetime import timedelta
 from django.shortcuts import redirect
 
 from .tasks import mailing, notify
+
+# D8.3 кэширование
+# импортируем декоратор для кэширования отдельного представления (!представленного в виде функции, а не класса)
+# Если используются классовые представления или дженерики, то нужно добавлять кэширование напрямую в urls.py (в котором
+# хранятся именно сами представления, а не основной urls.py из папки с settings.py).
+from django.views.decorators.cache import cache_page
+# D8.4 Кэширование на низком уровне
+from django.core.cache import cache
 
 
 class StartView(TemplateView):
@@ -49,10 +56,25 @@ class ArticleList(ListView):
         return context
 
 
+# D8.4 Кэширование на низком уровне
+# class AboutArticle(DetailView):
+#     model = Article
+#     template_name = 'article.html'
+#     context_object_name = 'article'
 class AboutArticle(DetailView):
-    model = Article
     template_name = 'article.html'
-    context_object_name = 'article'
+    queryset = Article.objects.all()
+
+    def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта
+        obj = cache.get(f'article-{self.kwargs["pk"]}', None)
+        # кэш очень похож на словарь, и метод get действует так же. Он забирает значение по ключу,
+        # если его нет, то забирает None.
+
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'article-{self.kwargs["pk"]}', obj)
+            return obj
 
 
 # лучшая статья
@@ -129,6 +151,10 @@ class ArticleDelete(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('Article_list')
 
 
+# @cache_page(1 * 60)  # в аргументы к декоратору передаём количество секунд, которые хотим, чтобы страница держалась в
+                # кэше. Внимание! Пока страница находится в кэше, изменения, происходящие на ней, учитываться не будут!
+# !!! path('allnews/', AllNews.as_view(), name='news_only'),
+# AttributeError: 'function' object has no attribute 'as_view'
 class AllNews(ListView):
     model = Article
     # ordering = 'pub_time'

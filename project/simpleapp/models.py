@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 from django.contrib.auth.models import User
+# D8.4 Кэширование на низком уровне
+from django.core.cache import cache
 
 
 class Article(models.Model):
@@ -12,12 +14,24 @@ class Article(models.Model):
     pub_time = models.DateTimeField(auto_now_add=True)
     # edit_time = models.DateTimeField(null=True)
 
+    # D11.5 работа с админкой (не работает, столбец on_stock не появляется... надо прописать столбец в list_display!)
+    @property
+    def on_stock(self):
+        return self.rating > 0
+
     # D6.4
     def __str__(self):
         return f'{self.name.title()}: {self.name[:10]}'
 
-    def get_absolute_url(self):
-        return reverse('About_article', args=[str(self.id)])
+    # D8.4 Кэширование на низком уровне
+    # def get_absolute_url(self):
+    #     return reverse('About_article', args=[str(self.id)])
+    def get_absolute_url(self):  # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с товаром
+        return f'/portal/{self.id}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
+        cache.delete(f'article-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
 
     # def __str__(self):
     #     return f'{self.name.title()}: {self.description[:20]}'

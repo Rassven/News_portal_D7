@@ -50,7 +50,14 @@ Article
         </tr>
         <tr>
             <td valign="top">Содержание (цензурировано):</td>
-            <td><h6>{{ article.text|censor }}</h6></td>
+            <td>
+                <h6>
+                    <!-- {% load cache %}
+                        {% cache 30 cens %} Кэшируем отдельный блок на 30 секунд -->
+                            {{ article.text|censor }}
+                        <!-- {% endcache %} -->
+                </h6>
+            </td>
         </tr>
     </table>
     <hr>

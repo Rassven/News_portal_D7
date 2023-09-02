@@ -2,6 +2,9 @@
 {% block title %}Список публикаций{% endblock title %}
 {% load custom_filters %}
 {% load custom_tags %}
+    <!-- D8.3 кэширование
+    {% load cache %}
+    {% cache 60 header %} -->
 
 {% block content %}
 User id = {{ user.id }} (
@@ -100,3 +103,6 @@ Administrator
 {% endif %}
 
 {% endblock content %}
+
+    <!-- D8.3 кэширование
+    {% endcache %} -->

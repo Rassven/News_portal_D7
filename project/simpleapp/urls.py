@@ -4,7 +4,8 @@ from .views import ArticleList, AboutArticle, BestArticle, SearchArticle, TestAr
 from .views import ArticleCreate, ArticleUpdate, ArticleDelete, AllNews, AllArticles, NewsCreate, ArticlesCreate
 # D6.4. Создание списка рассылок
 from .views import subscriptions
-from .views import IndexView
+# D8.3 кэширование
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
     path('', ArticleList.as_view(), name='Article_list'),
@@ -12,7 +13,7 @@ urlpatterns = [
     path('start', StartView.as_view()),
     path('best', BestArticle.as_view()),
     path('search', SearchArticle.as_view()),
-    path('test', TestArticle.as_view()),
+    path('test', cache_page(1*60)(TestArticle.as_view()),), # добавлено кэширование на 1 минуту.
     # path('create/', create_article, name='Article_create')
     path('article/create/', ArticleCreate.as_view(), name='Article_create'),
     path('<int:pk>/update/', ArticleUpdate.as_view(), name='article_update'),
@@ -23,8 +24,4 @@ urlpatterns = [
     path('news/create/', NewsCreate.as_view(), name='News_create'),
     # D6.4
     path('subscriptions/', subscriptions, name='subscriptions'),
-    # Так подписки будут доступны по пути /portal/subscriptions/,
-    # зачем их переносить в https://127.0.0.1:8000/subscriptions/ ???.
-    # D7.4
-    path('', IndexView.as_view()),
 ]

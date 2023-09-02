@@ -3,6 +3,10 @@
 {% load custom_tags %}
 {% block title %}Список новостей{% endblock title %}
 
+    <!-- D8.3 кэширование
+    {% load cache %}
+    {% cache 300 header %} -->
+
 {% block content %}
 <h2>Новости</h2>
 {% if perms.simpleapp.add_article %}
@@ -76,3 +80,6 @@
 <hr>
 
 {% endblock content %}
+
+    <!-- D8.3 кэширование
+    {% endcache %} -->

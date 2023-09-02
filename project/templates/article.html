@@ -1,10 +1,12 @@
 {% extends 'flatpages/default.html' %}
 <!-- {% load custom_tags %}  -->
 
-
 {% block title %}
-Лучшая статья
 {% endblock title %}
+
+    <!-- D8.3 кэширование
+    {% load cache %}
+    {% cache 60 header %} -->
 
 {% block content %}
 
@@ -34,3 +36,6 @@
 
 </h5>
 {% endblock content %}
+
+    <!-- D8.3 кэширование
+    {% endcache %} -->

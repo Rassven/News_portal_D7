@@ -24,7 +24,7 @@ def censor(value):
                 txt_list.append(c_word); c_word = c_symb; w_type = 1
     txt_list.append(c_word)
 
-    censored_txt = '';  # chk_word = ['', 0]
+    censored_txt = ''  # ; chk_word = ['', 0]
     for cur_word in txt_list:
         chk_word = [cur_word.lower(), len(cur_word)]
         if chk_word[0].isalpha():  # это только текст
@@ -65,7 +65,7 @@ def censor(value):
                                 censored_txt += var * (chk_word[1])
                             else:
                                 censored_txt += var
-                    elif cw_pars[2] > 1 and cw_pars[2] < cw_pars[1]:
+                    elif cw_pars[2] > 1 and (cw_pars[2] < cw_pars[1]):
                         if chk_word[0][0:cw_pars[2]-1] == cw_pars[0][0:cw_pars[2]-1] and chk_word[0][-(cw_pars[1]-cw_pars[2]):chk_word[1]] == cw_pars[0][-(cw_pars[1]-cw_pars[2]):cw_pars[1]]:
                             cng_flag = 1
                             var = change_list[black_list.index(cw_pars[0])]
